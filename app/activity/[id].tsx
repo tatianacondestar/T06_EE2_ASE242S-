@@ -2,12 +2,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import { activityDetails } from "@/constants/activities";
+import { AppColors } from "@/constants/colors";
+import { useActivities } from "@/context/activity-context";
 
 export default function ActivityDetail() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const activity = activityDetails.find((item) => item.id === id);
+  const { activities } = useActivities();
+  const activity = activities.find((item) => item.id === id);
 
   if (!activity) {
     return (
@@ -25,7 +27,7 @@ export default function ActivityDetail() {
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()}>
-            <Ionicons name="chevron-back" size={24} color="#fff" />
+            <Ionicons name="chevron-back" size={24} color={AppColors.primaryAction} />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Detalle</Text>
           <View style={{ width: 24 }} />
@@ -59,18 +61,20 @@ export default function ActivityDetail() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#ececec" },
+  container: { flex: 1, backgroundColor: AppColors.background },
   content: { paddingBottom: 24 },
   header: {
-    backgroundColor: "#e58a24",
+    backgroundColor: AppColors.surface,
     paddingTop: 46,
     paddingHorizontal: 16,
     paddingBottom: 16,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderBottomColor: AppColors.border,
   },
-  headerTitle: { color: "#fff", fontSize: 20, fontWeight: "800" },
+  headerTitle: { color: AppColors.textPrimary, fontSize: 20, fontWeight: "700" },
   image: {
     width: "100%",
     height: 220,
@@ -78,47 +82,47 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 14,
     marginHorizontal: 16,
-    color: "#0f3a64",
+    color: AppColors.textPrimary,
     fontSize: 28,
-    fontWeight: "900",
+    fontWeight: "700",
   },
   subtitle: {
     marginHorizontal: 16,
-    color: "#435b75",
+    color: AppColors.textSecondary,
     marginTop: 4,
     marginBottom: 10,
   },
   card: {
     marginHorizontal: 16,
     marginTop: 10,
-    backgroundColor: "#fff",
-    borderRadius: 12,
+    backgroundColor: AppColors.surface,
+    borderRadius: 14,
     padding: 14,
     borderWidth: 1,
-    borderColor: "#d0d8df",
+    borderColor: AppColors.border,
   },
-  sectionTitle: { color: "#0f3a64", fontSize: 17, fontWeight: "900", marginBottom: 8 },
-  item: { color: "#3a4b5d", marginBottom: 5 },
+  sectionTitle: { color: AppColors.textPrimary, fontSize: 17, fontWeight: "700", marginBottom: 8 },
+  item: { color: AppColors.textSecondary, marginBottom: 5 },
   bookButton: {
     marginTop: 16,
     marginHorizontal: 16,
-    backgroundColor: "#1f4ab0",
-    borderRadius: 12,
+    backgroundColor: AppColors.primaryAction,
+    borderRadius: 14,
     paddingVertical: 13,
   },
-  bookButtonText: { color: "#fff", textAlign: "center", fontWeight: "800", fontSize: 17 },
+  bookButtonText: { color: "#fff", textAlign: "center", fontWeight: "700", fontSize: 17 },
   errorTitle: {
     marginTop: 80,
     textAlign: "center",
-    color: "#0f3a64",
+    color: "#1c1c1e",
     fontSize: 24,
-    fontWeight: "900",
+    fontWeight: "700",
   },
   backButton: {
     marginTop: 16,
     marginHorizontal: 40,
-    backgroundColor: "#1f4ab0",
-    borderRadius: 10,
+    backgroundColor: "#0a84ff",
+    borderRadius: 12,
     paddingVertical: 12,
   },
   backButtonText: { color: "#fff", textAlign: "center", fontWeight: "700" },
